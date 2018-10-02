@@ -1,3 +1,5 @@
+infer_schema!("dotenv:DATABASE_URL");
+
 table! {
     posts (id) {
         id -> Int4,
