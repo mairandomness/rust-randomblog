@@ -24,7 +24,7 @@ pub mod schema;
 // Bring each module into scope
 use diesel::prelude::*;
 use dotenv::dotenv;
-use r2d2::{Builder, Pool, PooledConnection};
+use r2d2::{Pool, PooledConnection};
 use r2d2_diesel::ConnectionManager;
 use rocket::http::Status;
 use rocket::request::{self, FromRequest};
@@ -56,12 +56,26 @@ pub struct DbConn(PooledConnection<ConnectionManager<PgConnection>>);
 // This is what enables connection pool to become
 // a request guard
 
-// impl<'a, 'r> FromRequest<'a, 'r> for DbConn {
-//     type Error = ();
+impl<'a, 'r> FromRequest<'a, 'r> for DbConn {
+    type Error = ();
 
-//     //
-// }
+    // Implement FromRequest to do validation
+    fn from_request(request: &'a Request<'r>) -> request::Outcome<DbConn, ()> {
+        // Grab the guard property of the request object
+        let pool = request.guard::<State<Pool<ConnectionManager<PgConnection>>>>()?;
 
+        // Use the get method from connection pool to grab the connection.
+        // If it's ok, return the dbconn tuple struct wrapped in an outcome
+        // If get returns an error, we return a tuple with the signature (SomeFailureType,())
+        match pool.get() {
+            Ok(conn) => Outcome::Success(DbConn(conn)),
+            Err(_) => Outcome::Failure((Status::InternalServerError,())),
+        }
+    }
+}
+
+// return the first element of our tuple structure
+// to get the actual connection
 impl Deref for DbConn {
     type Target = PgConnection;
 
