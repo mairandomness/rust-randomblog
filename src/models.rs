@@ -1,6 +1,15 @@
 // This file will also be imported into lib
-
+use diesel::{Insertable, Queryable};
+use dotenv::dotenv;
+use std::env;
 use schema::{posts, users};
+
+#[cfg(
+    all(
+        feature = "postgres",
+        feature = "backend_specific_database_url"
+    )
+)]
 
 #[derive(Debug, Queryable)]
 pub struct User {
@@ -11,7 +20,7 @@ pub struct User {
 }
 
 #[derive(Debug, Insertable)]
-#[table_name="users"]
+#[table_name = "users"]
 pub struct NewUser {
     pub first_name: String,
     pub last_name: String,
@@ -28,8 +37,8 @@ pub struct Post {
 }
 
 #[derive(Debug, Insertable)]
-#[table_name="posts"]
-pub struct NewPost{
+#[table_name = "posts"]
+pub struct NewPost {
     pub user_id: i32,
     pub title: String,
     pub content: String,

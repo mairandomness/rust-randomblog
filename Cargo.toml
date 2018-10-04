@@ -1,11 +1,11 @@
 [package]
-name = "rust-randomblog"
+name = "rustyrandomblog"
 version = "0.1.0"
 authors = ["mairandomness <mairakodama@gmail.com>"]
 
 # bin is the entry point for cargo run and build
 [[bin]]
-name = "rust-randomblog"
+name = "rustyrandomblog"
 path = "src/bin/main.rs"
 
 # lib the entry point for all main app code
