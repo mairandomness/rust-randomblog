@@ -1,8 +1,5 @@
 // This file will also be imported into lib
 
-// disable warnings for insertable and queryable
-#![allow(proc_macro_derive_resolution_fallback)]
-
 use diesel::{Insertable, Queryable};
 use schema::{posts, users};
 
