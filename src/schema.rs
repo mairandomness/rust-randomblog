@@ -1,5 +1,3 @@
-
-
 table! {
     posts (id) {
         id -> Int4,

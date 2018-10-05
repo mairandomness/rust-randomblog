@@ -1,7 +1,9 @@
 // This file will also be imported into lib
+
+// disable warnings for insertable and queryable
+#![allow(proc_macro_derive_resolution_fallback)]
+
 use diesel::{Insertable, Queryable};
-use dotenv::dotenv;
-use std::env;
 use schema::{posts, users};
 
 #[cfg(
