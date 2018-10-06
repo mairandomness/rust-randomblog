@@ -3,13 +3,6 @@
 use diesel::{Insertable, Queryable};
 use schema::{posts, users};
 
-#[cfg(
-    all(
-        feature = "postgres",
-        feature = "backend_specific_database_url"
-    )
-)]
-
 #[derive(Debug, Queryable)]
 pub struct User {
     pub id: i32,

@@ -5,8 +5,13 @@ authors = ["mairandomness <mairakodama@gmail.com>"]
 
 # bin is the entry point for cargo run and build
 [[bin]]
-name = "rustyrandomblog"
+name = "main"
 path = "src/bin/main.rs"
+
+# Seed bin, to populate de DB
+[[bin]]
+name = "seed"
+path = "src/bin/seed.rs"
 
 # lib the entry point for all main app code
 # handles imports, app configuration
@@ -34,6 +39,11 @@ diesel_codegen = { version = "0.16", features = ["postgres"] }
 r2d2 = "*"
 r2d2-diesel = "*"
 
+fake = "*"
+
 # SYS
 dotenv = "0.10"
+
+# Hashing
+bcrypt = "*"
 
