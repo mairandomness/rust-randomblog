@@ -46,4 +46,3 @@ dotenv = "0.10"
 
 # Hashing
 bcrypt = "*"
-

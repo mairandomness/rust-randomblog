@@ -1,3 +1,4 @@
+<!-- inside `base.html.tera` -->
 <!DOCTYPE html>
 <html>
     <head>
@@ -5,8 +6,15 @@
     </head>
     <body>
         <div class="container">
-            <p>Check ou this tera Context:</p>
-            <p>{{ my_message }}</p>
+          <h1>MOAR POSTS AND USERS!</h1>
+          {% for user in users %}
+            <p>{{ user.first_name }} {{ user.last_name }} - {{ user.email }}</p>
+          {% endfor %}
+
+          {% for post in posts %}
+            <h2>{{ post.title }}</h2>
+            <p>{{ post.content }}</p>
+          {% endfor %}
         </div>
     </body>
 </html>

@@ -1,25 +1,33 @@
-// This file will also be imported into lib
+// Inside `src/models.rs`
+
+// This `models` file will also be imported into our `lib`
+// We JUST made the schema file...
+// Lets take advantage of it by bringing it into scope here
+extern crate serde_derive;
 
 use diesel::{Insertable, Queryable};
 use schema::{posts, users};
+use self::serde_derive::Serialize;
 
-#[derive(Debug, Queryable)]
+#[derive(Debug, Queryable, Serialize)]
 pub struct User {
     pub id: i32,
     pub first_name: String,
     pub last_name: String,
+    pub email: String,
     pub password: String,
 }
 
-#[derive(Debug, Insertable)]
+#[derive(Debug, Insertable, Serialize)]
 #[table_name = "users"]
 pub struct NewUser {
     pub first_name: String,
     pub last_name: String,
+    pub email: String,
     pub password: String,
 }
 
-#[derive(Debug, Queryable)]
+#[derive(Debug, Queryable, Serialize)]
 pub struct Post {
     pub id: i32,
     pub user_id: i32,
@@ -28,7 +36,7 @@ pub struct Post {
     pub published: bool,
 }
 
-#[derive(Debug, Insertable)]
+#[derive(Debug, Insertable, Serialize)]
 #[table_name = "posts"]
 pub struct NewPost {
     pub user_id: i32,

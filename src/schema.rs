@@ -13,6 +13,7 @@ table! {
         id -> Int4,
         first_name -> Varchar,
         last_name -> Varchar,
+        email -> Varchar,
         password -> Varchar,
     }
 }
