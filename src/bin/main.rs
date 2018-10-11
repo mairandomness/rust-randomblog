@@ -17,6 +17,7 @@ fn main() {
     rocket::ignite()
         .manage(create_db_pool()) // Register connection pool with Managed State
         .mount("/", routes![index])
+        .mount("/", routes![get_post])
         .attach(Template::fairing())
         .launch();
 }
@@ -45,4 +46,19 @@ fn index(connection: DbConn) -> Template {
     context.insert("users", &user_list);
 
     Template::render("layout", &context)
+}
+
+#[get("/post/<post_id>")]
+fn get_post(connection: DbConn, post_id: i32) -> Template {
+    use schema::posts::dsl::*;
+
+    let post = &posts
+    .filter(id.eq(post_id))
+    .load::<Post>(&*connection)
+    .expect("Error loading post")[0];
+
+    let mut context = Context::new();
+    context.insert("post", &post);
+
+    Template::render("post_test", &context)
 }
