@@ -1,0 +1,11 @@
+{% extends "main" %}
+{% block content %}
+    <div class="container">
+        <h2>{{ post.title }}</h2>
+        <p>{{ post.content }}</p>
+    </div>
+    <div class="container">
+        <a href="{{ PATH }}/post/{{ post.id - 1 }}">  Previous Post </a>
+        <a href="{{ PATH }}/post/{{ post.id + 1 }}"> Next Post </a>
+    </div>
+{% endblock content %}

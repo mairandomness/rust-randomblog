@@ -2,10 +2,10 @@
 #![plugin(rocket_codegen)]
 
 extern crate diesel;
+extern crate lil_lib;
 extern crate rocket;
 extern crate rocket_contrib;
 extern crate tera;
-extern crate lil_lib;
 
 use diesel::prelude::*;
 use lil_lib::models::*;
@@ -13,6 +13,7 @@ use lil_lib::*;
 use rocket_contrib::Template;
 use tera::Context;
 
+const PATH: &str = "http://localhost:8000";
 fn main() {
     rocket::ignite()
         .manage(create_db_pool()) // Register connection pool with Managed State
@@ -44,6 +45,7 @@ fn index(connection: DbConn) -> Template {
 
     context.insert("posts", &post_list);
     context.insert("users", &user_list);
+    context.insert("PATH", &PATH);
 
     Template::render("layout", &context)
 }
@@ -53,12 +55,13 @@ fn get_post(connection: DbConn, post_id: i32) -> Template {
     use schema::posts::dsl::*;
 
     let post = &posts
-    .filter(id.eq(post_id))
-    .load::<Post>(&*connection)
-    .expect("Error loading post")[0];
+        .filter(id.eq(post_id))
+        .load::<Post>(&*connection)
+        .expect("Error loading post")[0];
 
     let mut context = Context::new();
     context.insert("post", &post);
+    context.insert("PATH", &PATH);
 
-    Template::render("post_test", &context)
+    Template::render("post", &context)
 }
