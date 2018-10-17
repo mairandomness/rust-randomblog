@@ -10,7 +10,9 @@ extern crate tera;
 use diesel::prelude::*;
 use lil_lib::models::*;
 use lil_lib::*;
+use rocket::response::NamedFile;
 use rocket_contrib::Template;
+use std::path::{Path, PathBuf};
 use tera::Context;
 
 const PATH: &str = "http://localhost:8000";
@@ -19,6 +21,7 @@ fn main() {
         .manage(create_db_pool()) // Register connection pool with Managed State
         .mount("/", routes![index])
         .mount("/", routes![get_post])
+        .mount("/", routes![static_files])
         .attach(Template::fairing())
         .launch();
 }
@@ -64,4 +67,9 @@ fn get_post(connection: DbConn, post_id: i32) -> Template {
     context.insert("PATH", &PATH);
 
     Template::render("post", &context)
+}
+
+#[get("/file/<file..>")]
+fn static_files(file: PathBuf) -> Option<NamedFile> {
+    NamedFile::open(Path::new("static/").join(file)).ok()
 }
