@@ -4,10 +4,12 @@
 // We JUST made the schema file...
 // Lets take advantage of it by bringing it into scope here
 extern crate serde_derive;
+extern crate chrono;
 
+use self::serde_derive::Serialize;
+use self::chrono::prelude::*;
 use diesel::{Insertable, Queryable};
 use schema::{posts, users};
-use self::serde_derive::Serialize;
 
 #[derive(Debug, Queryable, Serialize)]
 pub struct User {
@@ -32,6 +34,7 @@ pub struct Post {
     pub id: i32,
     pub user_id: i32,
     pub title: String,
+    pub date: DateTime<Utc>,
     pub content: String,
     pub published: bool,
 }

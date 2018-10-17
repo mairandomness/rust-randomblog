@@ -12,6 +12,8 @@ CREATE TABLE posts
     id SERIAL PRIMARY KEY,
     user_id INTEGER NOT NULL,
     title VARCHAR NOT NULL,
+    date TIMESTAMP NOT NULL DEFAULT(NOW()),
     content TEXT NOT NULL,
-    published BOOLEAN NOT NULL DEFAULT 'f'
+    published BOOLEAN NOT NULL DEFAULT 'f',
+    FOREIGN KEY (user_id) REFERENCES users (id)
 );

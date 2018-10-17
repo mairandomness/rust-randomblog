@@ -2,6 +2,7 @@
 {% block content %}
     <div class="container">
         <h2>{{ post.title }}</h2>
+        <i>{{ post.date }}</i>
         <p>{{ post.content }}</p>
     </div>
     <div class="container">

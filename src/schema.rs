@@ -3,6 +3,7 @@ table! {
         id -> Int4,
         user_id -> Int4,
         title -> Varchar,
+        date -> Timestamp,
         content -> Text,
         published -> Bool,
     }
@@ -17,6 +18,8 @@ table! {
         password -> Varchar,
     }
 }
+
+joinable!(posts -> users (user_id));
 
 allow_tables_to_appear_in_same_query!(
     posts,
