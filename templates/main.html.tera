@@ -4,7 +4,7 @@
 		<link href='http://fonts.googleapis.com/css?family=Roboto:400,300,700'
 			rel='stylesheet' type='text/css'>
 		<link rel="stylesheet"
-			href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+			href="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
 		<link rel='stylesheet' type='text/css'
 			href="{{ PATH }}/file/style.css">
 	</head>
@@ -12,7 +12,9 @@
 		<div class="container-alt">
 			<div class="row top-menu">
 				<div class="col-md-6">
-					<a class="margin-left" href="{{ PATH }}"> HOME </a>
+				<a class="margin-left" href="{{ PATH }}">
+					<img src="https://raw.githubusercontent.com/mairandomness/randomblog/gh-pages/images/pixelcat.png" width="80" alt="My pc, my cats and me logo" class="logo">
+					 HOME </a>
 				</div>
 			</div>
 			<div class="container">
@@ -23,7 +25,7 @@
 	</body>
 	<br>
 	<footer>
-		<p> MY INFO AND STUFF </p>
-		<a href="https://twitter.com/maiRandomness">twitter: mairandomness</a>
+		<br>
+		<p>This blog was made using Rust, if you are curious, check out it's <a href="https://github.com/mairandomness/rustyRandomBlog">repository</a> :D </p>
 	</footer>
 </html>
