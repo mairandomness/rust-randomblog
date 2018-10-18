@@ -23,7 +23,8 @@
 				</div>
 				<div class="col-xs-2 media-links">
 					<p><a class="fa fa-twitter" style="font-size:3em" href="https://twitter.com/maiRandomness"></a>
-					<a class="fa fa-github" style="font-size:3em" href="https://github.com/mairandomness"> </a></p>
+					<a class="fa fa-github" style="font-size:3em" href="https://github.com/mairandomness"> </a>
+					<a class="fa fa-gitlab" style="font-size:3em" href="https://gitlab.gnome.org/mairandomness"></a></p>
 				</div>
 
 			</div>
