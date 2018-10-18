@@ -1,21 +1,31 @@
 <!DOCTYPE html>
 <html lang="en">
 	<head>
+	<title>My pc, my cats and me</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<link href='http://fonts.googleapis.com/css?family=Roboto:400,300,700'
 			rel='stylesheet' type='text/css'>
 		<link rel="stylesheet"
 			href="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
 		<link rel='stylesheet' type='text/css'
 			href="{{ PATH }}/file/style.css">
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+		<link rel="shortcut icon" type="image/png" href="https://raw.githubusercontent.com/mairandomness/randomblog/gh-pages/images/pixelcat.png"/>
 	</head>
 	<body>
 		<div class="container-alt">
 			<div class="row top-menu">
-				<div class="col-md-6">
-				<a class="margin-left" href="{{ PATH }}">
+				<div class="col-xs-10">
+					<a class="home" href="{{ PATH }}">
 					<img src="https://raw.githubusercontent.com/mairandomness/randomblog/gh-pages/images/pixelcat.png" width="80" alt="My pc, my cats and me logo" class="logo">
-					 HOME </a>
+					 My pc, my cats and me
+					 </a>
 				</div>
+				<div class="col-xs-2 media-links">
+					<p><a class="fa fa-twitter" style="font-size:3em" href="https://twitter.com/maiRandomness"></a>
+					<a class="fa fa-github" style="font-size:3em" href="https://github.com/mairandomness"> </a></p>
+				</div>
+
 			</div>
 			<div class="container">
 				{% block content %}
@@ -25,7 +35,7 @@
 	</body>
 	<br>
 	<footer>
-		<br>
+		<hr>
 		<p>This blog was made using Rust, if you are curious, check out it's <a href="https://github.com/mairandomness/rustyRandomBlog">repository</a> :D </p>
 	</footer>
 </html>

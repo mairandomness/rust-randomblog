@@ -19,6 +19,7 @@ extern crate rocket_contrib;
 // Re-export schema and models so any files
 // that use lib.rs have access to them
 pub mod models;
+pub mod view_model;
 pub mod schema;
 
 // Bring each module into scope

@@ -1,14 +1,17 @@
 #![feature(plugin, custom_derive)]
 #![plugin(rocket_codegen)]
 
+extern crate chrono;
 extern crate diesel;
 extern crate lil_lib;
 extern crate rocket;
 extern crate rocket_contrib;
 extern crate tera;
 
+use chrono::prelude::*;
 use diesel::prelude::*;
 use lil_lib::models::*;
+use lil_lib::view_model::*;
 use lil_lib::*;
 use rocket::response::NamedFile;
 use rocket_contrib::Template;
@@ -16,6 +19,7 @@ use std::path::{Path, PathBuf};
 use tera::Context;
 
 const PATH: &str = "http://localhost:8000";
+
 fn main() {
     rocket::ignite()
         .manage(create_db_pool()) // Register connection pool with Managed State
@@ -46,11 +50,13 @@ fn index(connection: DbConn) -> Template {
         .load::<User>(&*connection)
         .expect("Error loading users");
 
+    let post_list: Vec<PostView> = post_list.iter().map(|x| post_view(x)).collect();
+
     context.insert("posts", &post_list);
     context.insert("users", &user_list);
     context.insert("PATH", &PATH);
 
-    Template::render("layout", &context)
+    Template::render("home", &context)
 }
 
 #[get("/post/<post_id>")]
@@ -61,6 +67,8 @@ fn get_post(connection: DbConn, post_id: i32) -> Template {
         .filter(id.eq(post_id))
         .load::<Post>(&*connection)
         .expect("Error loading post")[0];
+
+    let post = post_view(post);
 
     let mut context = Context::new();
     context.insert("post", &post);
