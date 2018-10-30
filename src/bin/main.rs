@@ -8,7 +8,6 @@ extern crate rocket;
 extern crate rocket_contrib;
 extern crate tera;
 
-use chrono::prelude::*;
 use diesel::prelude::*;
 use lil_lib::models::*;
 use lil_lib::view_model::*;

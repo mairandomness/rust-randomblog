@@ -1,5 +1,6 @@
 // Import Diesel lib and api
-
+extern crate chrono;
+extern crate serde_derive;
 #[macro_use]
 extern crate diesel;
 #[macro_use]

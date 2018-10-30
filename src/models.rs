@@ -3,11 +3,8 @@
 // This `models` file will also be imported into our `lib`
 // We JUST made the schema file...
 // Lets take advantage of it by bringing it into scope here
-extern crate serde_derive;
-extern crate chrono;
-
-use self::serde_derive::Serialize;
-use self::chrono::prelude::*;
+use serde_derive::Serialize;
+use chrono::prelude::*;
 use diesel::{Insertable, Queryable};
 use schema::{posts, users};
 

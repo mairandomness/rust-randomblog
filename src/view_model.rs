@@ -1,8 +1,4 @@
-extern crate chrono;
-extern crate serde_derive;
-
-use self::chrono::prelude::*;
-use self::serde_derive::Serialize;
+use serde_derive::Serialize;
 use models::Post;
 
 #[derive(Debug, Serialize)]
