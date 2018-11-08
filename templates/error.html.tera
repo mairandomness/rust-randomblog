@@ -1,0 +1,7 @@
+{% extends "main" %}
+{% block content %}
+    <div class="container">
+        <p>{{ error }}</p>
+    </div>
+
+{% endblock content %}

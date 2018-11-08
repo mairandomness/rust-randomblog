@@ -5,27 +5,29 @@
 extern crate chrono;
 extern crate diesel;
 extern crate lil_lib;
-#[macro_use] extern crate rocket;
+#[macro_use]
+extern crate rocket;
 extern crate rocket_contrib;
 extern crate tera;
 
-use tera::Context;
 use diesel::prelude::*;
 use lil_lib::models::*;
 use lil_lib::view_model::*;
 use lil_lib::*;
-use rocket::http::RawStr;
 use rocket::http::uri::Uri;
+use rocket::http::RawStr;
 use rocket::response::NamedFile;
 use rocket::Data;
 use rocket::Request;
 use rocket_contrib::templates::Template;
 use std::path::{Path, PathBuf};
+use tera::Context;
 
 const PATH: &str = "http://localhost:8000";
 
 fn main() {
     rocket::ignite()
+        .register(catchers![not_found])
         .manage(create_db_pool()) // Register connection pool with Managed State
         .mount("/", routes![index])
         .mount("/", routes![get_post])
@@ -72,15 +74,22 @@ fn get_post(connection: DbConn, post_uri: String) -> Template {
         .filter(title.eq(Uri::percent_decode_lossy(&post_uri.as_bytes()).to_string()))
         .filter(published.eq(true))
         .load::<Post>(&*connection)
-        .expect("Error loading post")[0];
+        .expect("Error loading post");
 
-    let mut context = Context::new();
+        let mut context = Context::new();
+        context.insert("PATH", &PATH);
+    if post.len() > 0 {
 
-    let post = post_view(post);
-    context.insert("post", &post);
-    context.insert("PATH", &PATH);
+        let post = post_view(&(post[0]));
+        context.insert("post", &post);
 
-    Template::render("post", &context)
+
+        Template::render("post", &context)
+    } else {
+        let error = format!("Sorry, '{}' is not a valid post", Uri::percent_decode_lossy(&post_uri.as_bytes()).to_string());
+        context.insert("error", &error);
+        Template::render("error", &context)
+    }
 }
 
 #[catch(404)]
