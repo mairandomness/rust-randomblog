@@ -1,23 +1,26 @@
+#![feature(proc_macro_hygiene, decl_macro)]
 #![feature(plugin, custom_derive)]
-#![plugin(rocket_codegen)]
+#![feature(custom_attribute)]
 
 extern crate chrono;
 extern crate diesel;
 extern crate lil_lib;
-extern crate rocket;
+#[macro_use] extern crate rocket;
 extern crate rocket_contrib;
 extern crate tera;
 
-use rocket::Request;
+use tera::Context;
 use diesel::prelude::*;
 use lil_lib::models::*;
 use lil_lib::view_model::*;
 use lil_lib::*;
-use rocket::http::uri::URI;
+use rocket::http::RawStr;
+use rocket::http::uri::Uri;
 use rocket::response::NamedFile;
-use rocket_contrib::Template;
+use rocket::Data;
+use rocket::Request;
+use rocket_contrib::templates::Template;
 use std::path::{Path, PathBuf};
-use tera::Context;
 
 const PATH: &str = "http://localhost:8000";
 
@@ -66,7 +69,7 @@ fn get_post(connection: DbConn, post_uri: String) -> Template {
     use schema::posts::dsl::*;
 
     let post = &posts
-        .filter(title.eq(URI::percent_decode_lossy(&post_uri.as_bytes()).to_string()))
+        .filter(title.eq(Uri::percent_decode_lossy(&post_uri.as_bytes()).to_string()))
         .filter(published.eq(true))
         .load::<Post>(&*connection)
         .expect("Error loading post")[0];
