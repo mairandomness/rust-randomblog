@@ -51,6 +51,7 @@ fn main() {
             user_id: uid,
             title: fake!(Lorem.sentence(1, 4)),
             content: fake!(Lorem.paragraph(5, 5)),
+            published: true,
         }
     }
 

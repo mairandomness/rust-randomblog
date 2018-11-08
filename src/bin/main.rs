@@ -8,10 +8,12 @@ extern crate rocket;
 extern crate rocket_contrib;
 extern crate tera;
 
+use rocket::Request;
 use diesel::prelude::*;
 use lil_lib::models::*;
 use lil_lib::view_model::*;
 use lil_lib::*;
+use rocket::http::uri::URI;
 use rocket::response::NamedFile;
 use rocket_contrib::Template;
 use std::path::{Path, PathBuf};
@@ -43,6 +45,7 @@ fn index(connection: DbConn) -> Template {
     // the `posts::dsl::*` enables us to use `posts` instead of `posts::table`
     // the types <Post> and <User> are imported by `lib_blog::models::*`
     let post_list = posts
+        .filter(published.eq(true))
         .load::<Post>(&*connection)
         .expect("Error loading posts");
     let user_list = users
@@ -58,22 +61,28 @@ fn index(connection: DbConn) -> Template {
     Template::render("home", &context)
 }
 
-#[get("/post/<post_id>")]
-fn get_post(connection: DbConn, post_id: i32) -> Template {
+#[get("/post/<post_uri>")]
+fn get_post(connection: DbConn, post_uri: String) -> Template {
     use schema::posts::dsl::*;
 
     let post = &posts
-        .filter(id.eq(post_id))
+        .filter(title.eq(URI::percent_decode_lossy(&post_uri.as_bytes()).to_string()))
+        .filter(published.eq(true))
         .load::<Post>(&*connection)
         .expect("Error loading post")[0];
 
-    let post = post_view(post);
-
     let mut context = Context::new();
+
+    let post = post_view(post);
     context.insert("post", &post);
     context.insert("PATH", &PATH);
 
     Template::render("post", &context)
+}
+
+#[catch(404)]
+fn not_found(req: &Request) -> String {
+    format!("Sorry, '{}' is not a valid path.", req.uri())
 }
 
 #[get("/file/<file..>")]

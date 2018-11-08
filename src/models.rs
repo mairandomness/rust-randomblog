@@ -42,4 +42,5 @@ pub struct NewPost {
     pub user_id: i32,
     pub title: String,
     pub content: String,
+    pub published: bool,
 }

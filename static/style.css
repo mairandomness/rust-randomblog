@@ -16,6 +16,11 @@ footer {
     font-size: 2em;
 }
 
+.date {
+    font-style: italic;
+    color: #7a7a7a;
+}
+
 .logo {
     margin-left: 30px;
     margin: 20px;

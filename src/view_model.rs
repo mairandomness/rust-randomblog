@@ -1,5 +1,5 @@
-use serde_derive::Serialize;
 use models::Post;
+use serde_derive::Serialize;
 
 #[derive(Debug, Serialize)]
 pub struct PostView {
@@ -12,7 +12,7 @@ pub struct PostView {
     pub published: bool,
 }
 
-pub fn post_view (post: &Post) -> PostView {
+pub fn post_view(post: &Post) -> PostView {
     let copy = post.content.clone();
     PostView {
         id: post.id,

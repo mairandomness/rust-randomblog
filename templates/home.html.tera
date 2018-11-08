@@ -2,17 +2,11 @@
 {% block content %}
 
     <div class="container">
-        <h1>MOAR POSTS AND USERS!</h1>
-        {% for user in users %}
-        <p>{{ user.first_name }} {{ user.last_name }} - {{ user.email }}</p>
-        {% endfor %}
-
         {% for post in posts %}
-        <h2><a href="{{PATH}}/post/{{ post.id }}"> {{ post.title }}</a></h2>
-        <i>{{ post.date }}</i>
+        <h2><a href="{{PATH}}/post/{{ post.title | urlencode }}"> {{ post.title }}</a></h2>
+        <p class="date">{{ post.date }}</p>
         <p>{{ post.content_preview }}...</p>
         {% endfor %}
-
     </div>
 {% endblock content %}
 
