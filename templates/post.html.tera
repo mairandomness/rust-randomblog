@@ -1,12 +1,27 @@
 {% extends "main" %}
 {% block content %}
-    <div class="container">
-        <h2>{{ post.title }}</h2>
+    <div class="container row">
+        <h1>{{ post.title }}</h1>
         <p class="date">{{ post.date }}</p>
-        <p>{{ post.content }}</p>
+        <div>
+            <p>{{ post.content }}</p>
+        </div>
     </div>
-    <div class="container">
-        <a href="{{ PATH }}/post/{{ post.id - 1 }}">  Previous Post </a>
-        <a class="right-align" href="{{ PATH }}/post/{{ post.id + 1 }}"> Next Post </a>
+    <div class="container row">
+        <div class="col-xs-6">
+            {% if previous == "" %}
+                <p class="broken-link"><i class="fas fa-angle-left" ></i> Previous Post </p>
+            {% else %}
+                <a href="{{ PATH }}/post/{{ previous | urlencode }}"><i class="fas fa-angle-left" ></i> Previous Post </a>
+            {% endif %}
+        </div>
+        <div class="col-xs-6 right-align">
+            {% if next == "" %}
+                <p class="broken-link"> Next Post <i class="fas fa-angle-right"></i></p>
+            {% else %}
+                <a href="{{ PATH }}/post/{{ next | urlencode }}"> Next Post <i class="fas fa-angle-right"></i></a>
+
+            {% endif %}
+        </div>
     </div>
 {% endblock content %}

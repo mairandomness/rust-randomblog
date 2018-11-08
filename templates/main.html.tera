@@ -9,7 +9,8 @@
 			href="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
 		<link rel='stylesheet' type='text/css'
 			href="{{ PATH }}/file/style.css">
-		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+		<link href="https://fonts.googleapis.com/css?family=Inconsolata" rel="stylesheet">
+		<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
 		<link rel="shortcut icon" type="image/png" href="https://raw.githubusercontent.com/mairandomness/randomblog/gh-pages/images/pixelcat.png"/>
 	</head>
 	<body>
@@ -22,9 +23,9 @@
 					 </a>
 				</div>
 				<div class="col-xs-2 media-links">
-					<p><a class="fa fa-twitter" style="font-size:3em" href="https://twitter.com/maiRandomness"></a>
-					<a class="fa fa-github" style="font-size:3em" href="https://github.com/mairandomness"> </a>
-					<a class="fa fa-gitlab" style="font-size:3em" href="https://gitlab.gnome.org/mairandomness"></a></p>
+					<p><a class="fab fa-twitter icon" style="font-size:2.5em" href="https://twitter.com/maiRandomness"></a>
+					<a class="fab fa-github icon" style="font-size:2.5em" href="https://github.com/mairandomness"> </a>
+					<a class="fab fa-gitlab icon" style="font-size:2.5em" href="https://gitlab.gnome.org/mairandomness"></a></p>
 				</div>
 
 			</div>

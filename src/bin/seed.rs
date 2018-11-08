@@ -7,6 +7,8 @@ extern crate diesel;
 #[macro_use]
 extern crate fake;
 
+use std::{thread, time};
+
 use bcrypt::{hash, DEFAULT_COST};
 use diesel::prelude::*;
 use lil_lib::models::*;
@@ -14,6 +16,8 @@ use lil_lib::*;
 
 fn main() {
     // The schema is important here
+    let ten_millis = time::Duration::from_millis(1000);
+
     // Let's bring all the DSL methods into scope
     use schema::posts::dsl::*;
     use schema::users::dsl::*;
@@ -87,8 +91,15 @@ fn main() {
         .collect();
 
     // Insert the posts
-    diesel::insert_into(posts)
-        .values(&new_post_list)
+    for post in new_post_list.iter() {
+         diesel::insert_into(posts)
+        .values(post.clone())
         .execute(&*connection)
         .expect("Error inserting posts");
+    }
+    // diesel::insert_into(posts)
+    //     .values(&new_post_list)
+    //     .execute(&*connection)
+    //     .expect("Error inserting posts");
 }
+        //   thread::sleep(ten_millis);

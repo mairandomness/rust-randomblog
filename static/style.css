@@ -1,19 +1,43 @@
 a {
     color: #77b392;
+    font-size: 1.4em;
+    line-height: 1.6;
+}
+
+p {
+    font-size: 1.4em;
+    line-height: 1.6;
+}
+
+h1,
+h2 {
+    color: #3e4242;
+    font-weight: 100;
+    font-family: 'Inconsolata', monospace;
+}
+
+h1 {
+    font-size: 3.2em;
 }
 
 footer {
     color: #7a7a7a;
     font-style: italic;
-    font-size: 0.9em;
+    font-size: 10px;
     padding: 10px;
 }
+
+.broken-link {
+    color: #969696;
+}
+
 .top-menu {
     background-color: #2f2f2f;
 }
 
 .home {
     font-size: 2em;
+    font-family: 'Inconsolata', monospace;
 }
 
 .date {
@@ -30,10 +54,15 @@ footer {
 }
 
 .icon {
-    font-size: 1.5em;
+    font-size: 1.0em;
+    padding-right: 3px;
 }
 
 .media-links {
     margin-top: 32px;
     text-align: center;
+}
+
+.right-align {
+    text-align: right;
 }
