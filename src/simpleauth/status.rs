@@ -1,11 +1,13 @@
 use super::authenticator::Authenticator;
 use super::config;
 use rocket::http::{Cookie, Cookies, Status};
+use rocket::http::uri::Uri;
 use rocket::request::{FormItems, FromForm, Request};
 use rocket::response::Redirect;
 use rocket::response::Responder;
 use rocket::Response;
 use std::collections::HashMap;
+use std::convert::TryInto;
 
 /// Login state is used after the user has typed its username and password. It checks with an
 /// authenticator if given credentials are valid and returns InvalidCredentials or Succeed based
@@ -29,6 +31,7 @@ pub enum LoginStatus<A> {
 
 pub struct LoginRedirect(Redirect);
 
+
 impl<A: Authenticator> LoginStatus<A> {
     /// Returns the user id from an instance of Authenticator
     pub fn get_authenticator(&self) -> &A {
@@ -39,25 +42,28 @@ impl<A: Authenticator> LoginStatus<A> {
     }
 
     /// Generates a succeed response
-    fn succeed<T: Into<String>>(self, url: &'a T, mut cookies: Cookies) -> Redirect {
+    fn succeed<T: TryInto<Uri<'static>>>(self, url: T, mut cookies: Cookies) -> Redirect
+
+    {
         let cookie_identifier = config::get_cookie_identifier();
 
         cookies.add_private(Cookie::new(
             cookie_identifier,
             self.get_authenticator().user().to_string(),
         ));
-        Redirect::to(url.into().as_str())
+
+        Redirect::to(url)
     }
 
     /// Generates a failed response
-    fn failed<T: Into<String>>(self, url: T) -> Redirect {
-        Redirect::to(url.into().as_str())
+    fn failed<T: TryInto<Uri<'static>>>(self, url: T) -> Redirect {
+        Redirect::to(url)
     }
 
     /// Generate an appropriate response based on the login status that the authenticator returned
-    pub fn redirect<T: Into<String>, S: Into<String>>(
+    pub fn redirect<T: TryInto<Uri<'static>>, S: TryInto<Uri<'static>>>(
         self,
-        success_url: T,
+        success_url:  T,
         failure_url: S,
         cookies: Cookies,
     ) -> LoginRedirect {

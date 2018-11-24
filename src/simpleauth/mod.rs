@@ -1,5 +1,4 @@
 extern crate rocket;
-
 pub mod authenticator;
 
 pub mod status;

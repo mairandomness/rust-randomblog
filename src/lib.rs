@@ -1,3 +1,4 @@
+#![feature(try_from)]
 // Import Diesel lib and api
 extern crate chrono;
 extern crate serde_derive;
@@ -20,6 +21,8 @@ extern crate rocket_contrib;
 // Re-export schema and models so any files
 // that use lib.rs have access to them
 pub mod models;
+
+pub mod simpleauth;
 pub mod view_model;
 pub mod schema;
 
