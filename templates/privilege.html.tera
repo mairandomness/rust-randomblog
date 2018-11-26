@@ -1,0 +1,16 @@
+{% extends "main" %}
+{% block content %}
+    <div class="container">
+        <h1 style="text-align:center"> Hi {{ info }}!</h1>
+        <h2><a href="{{PATH}}/post/new"> Create new post</a></h2>
+        {% for post in posts %}
+        <h3><a href="{{PATH}}/post/{{ post.title | urlencode }}"> {{ post.title }}</a></h3>
+        <p class="date">{{ post.date }}</p>
+        <p>{{ post.content_preview }}...</p>
+        <a href="{{PATH}}/post/{{ post.title | urlencode }}/edit">Edit</a>
+        <a href="{{PATH}}/post/{{ post.title | urlencode }}/delete">Delete</a>
+        {% endfor %}
+
+    </div>
+
+{% endblock content %}

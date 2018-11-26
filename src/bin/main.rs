@@ -132,33 +132,36 @@ fn get_post(connection: DbConn, post_uri: String) -> Template {
 }
 
 // Authetication handling
-#[get("/admin")]
-fn admin(info: UserPass<String>) -> Template {
+#[get("/gimme_privilege")]
+fn admin(connection: DbConn, info: UserPass<String>) -> Template {
+    use schema::posts::dsl::*;
+
     let mut context = Context::new();
     context.insert("PATH", &PATH);
-    let msg = format!(
-        "Restricted administration area, user logged in: {}, <a href=\"/logout\" >Logout</a> ",
-        info.user
-    );
-    context.insert("error", &msg);
-    Template::render("error", &context)
+    context.insert("info", &info.user);
+    let post_list = posts
+        .filter(published.eq(true))
+        .order(date.desc())
+        .load::<Post>(&*connection)
+        .expect("Error loading posts");
+    context.insert("post_list", &post_list);
+    Template::render("privilege", &context)
 }
 
-//#[get("/post/new", rank = 2)]
-#[get("/admin", rank = 2)]
+#[get("/gimme_privilege", rank = 2)]
 fn login() -> Template {
     let mut context = Context::new();
     context.insert("PATH", &PATH);
     Template::render("login", &context)
 }
 
-#[post("/admin", data = "<form>")]
+#[post("/gimme_privilege", data = "<form>")]
 fn login_post(form: Form<LoginStatus<DummyAuthenticator>>, cookies: Cookies) -> LoginRedirect {
     // creates a response with either a cookie set (in case of a succesfull login)
     // or not (in case of a failure). In both cases a "Location" header is send.
     // the first parameter indicates the redirect URL when successful login,
     // the second a URL for a failed login
-    form.into_inner().redirect("/admin", "/admin", cookies)
+    form.into_inner().redirect("/gimme_privilege", "/gimme_privilege", cookies)
 }
 
 #[get("/logout")]
@@ -167,13 +170,13 @@ fn logout(mut info: UserPass<String>) -> Redirect {
     Redirect::to("/")
 }
 
-// CUD (because the read is already up there)
-// #[get("/post/new")]
-//fn new_post(info: UserPass<String>) -> Template {
-//    let mut context = Context::new();
-//    context.insert("PATH", &PATH);
-//  Template::render("new_post", &context)
-// }
+//CUD (because the read is already up there)
+#[get("/post/new")]
+fn new_post(info: UserPass<String>) -> Template {
+   let mut context = Context::new();
+   context.insert("PATH", &PATH);
+ Template::render("new_post", &context)
+}
 // #[get("/post/<post_uri>/edit")]
 // #[get("/post/<post_uri>/delete")]
 
