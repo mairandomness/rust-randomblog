@@ -43,6 +43,7 @@ fn main() {
 
     fn generate_user_info(pw: &str) -> NewUser {
         NewUser {
+            username: fake!(Name.name),
             first_name: fake!(Name.name),
             last_name: fake!(Name.name),
             email: fake!(Internet.free_email),
@@ -61,6 +62,7 @@ fn main() {
 
     // Create personal login
     let me = NewUser {
+        username: "admin".to_string(),
         first_name: "Mai".to_string(),
         last_name: "Kodama".to_string(),
         email: "mai_kd@hotmail.com".to_string(),

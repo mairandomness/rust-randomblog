@@ -6,6 +6,7 @@ extern crate serde_derive;
 extern crate diesel;
 #[macro_use]
 extern crate diesel_codegen;
+extern crate bcrypt;
 
 // Access to ENV vars
 extern crate dotenv;

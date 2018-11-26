@@ -3,23 +3,39 @@
 // This `models` file will also be imported into our `lib`
 // We JUST made the schema file...
 // Lets take advantage of it by bringing it into scope here
-use serde_derive::Serialize;
+use serde_derive::{Deserialize, Serialize};
 use chrono::prelude::*;
 use diesel::{Insertable, Queryable};
 use schema::{posts, users};
 
-#[derive(Debug, Queryable, Serialize)]
+use simpleauth::userpass::FromString;
+
+#[derive(Clone, Debug, Queryable, Deserialize, Serialize)]
 pub struct User {
     pub id: i32,
+    pub username: String,
     pub first_name: String,
     pub last_name: String,
     pub email: String,
     pub password: String,
 }
 
+impl ToString for User {
+    fn to_string(&self) -> String {
+        serde_json::to_string(&self).unwrap()
+    }
+}
+
+impl FromString for User {
+    fn from_string(s: String) -> Self {
+        serde_json::from_str(&s).unwrap()
+    }
+}
+
 #[derive(Debug, Insertable, Serialize)]
 #[table_name = "users"]
 pub struct NewUser {
+    pub username: String,
     pub first_name: String,
     pub last_name: String,
     pub email: String,

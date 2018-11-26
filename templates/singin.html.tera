@@ -1,7 +1,0 @@
-{% extends "main" %}
-{% block content %}
-    <div class="container">
-        <h1 style="text-align:center">{{ error }}</h1>
-    </div>
-
-{% endblock content %}

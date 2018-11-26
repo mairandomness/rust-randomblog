@@ -12,10 +12,16 @@ extern crate tera;
 
 use diesel::prelude::*;
 use lil_lib::models::*;
+use lil_lib::simpleauth::dummy::DummyAuthenticator;
+use lil_lib::simpleauth::status::{LoginRedirect, LoginStatus};
+use lil_lib::simpleauth::userpass::UserPass;
 use lil_lib::view_model::*;
 use lil_lib::*;
 use rocket::http::uri::Uri;
+use rocket::http::Cookies;
+use rocket::request::Form;
 use rocket::response::NamedFile;
+use rocket::response::Redirect;
 use rocket::Request;
 use rocket_contrib::templates::Template;
 use std::path::{Path, PathBuf};
@@ -28,6 +34,7 @@ fn main() {
         .register(catchers![not_found])
         .register(catchers![internal])
         .manage(create_db_pool()) // Register connection pool with Managed State
+        .mount("/", routes![admin, login, login_post, logout])
         .mount("/", routes![index])
         .mount("/", routes![get_post])
         .mount("/", routes![static_files])
@@ -124,6 +131,53 @@ fn get_post(connection: DbConn, post_uri: String) -> Template {
     }
 }
 
+// Authetication handling
+#[get("/admin")]
+fn admin(info: UserPass<String>) -> Template {
+    let mut context = Context::new();
+    context.insert("PATH", &PATH);
+    let msg = format!(
+        "Restricted administration area, user logged in: {}, <a href=\"/logout\" >Logout</a> ",
+        info.user
+    );
+    context.insert("error", &msg);
+    Template::render("error", &context)
+}
+
+//#[get("/post/new", rank = 2)]
+#[get("/admin", rank = 2)]
+fn login() -> Template {
+    let mut context = Context::new();
+    context.insert("PATH", &PATH);
+    Template::render("login", &context)
+}
+
+#[post("/admin", data = "<form>")]
+fn login_post(form: Form<LoginStatus<DummyAuthenticator>>, cookies: Cookies) -> LoginRedirect {
+    // creates a response with either a cookie set (in case of a succesfull login)
+    // or not (in case of a failure). In both cases a "Location" header is send.
+    // the first parameter indicates the redirect URL when successful login,
+    // the second a URL for a failed login
+    form.into_inner().redirect("/admin", "/admin", cookies)
+}
+
+#[get("/logout")]
+fn logout(mut info: UserPass<String>) -> Redirect {
+    info.logout();
+    Redirect::to("/")
+}
+
+// CUD (because the read is already up there)
+// #[get("/post/new")]
+//fn new_post(info: UserPass<String>) -> Template {
+//    let mut context = Context::new();
+//    context.insert("PATH", &PATH);
+//  Template::render("new_post", &context)
+// }
+// #[get("/post/<post_uri>/edit")]
+// #[get("/post/<post_uri>/delete")]
+
+// ERROR handling
 #[catch(404)]
 fn not_found(req: &Request) -> Template {
     let mut context = Context::new();
@@ -134,7 +188,7 @@ fn not_found(req: &Request) -> Template {
 }
 
 #[catch(500)]
-fn internal(req: &Request) -> Template {
+fn internal(_req: &Request) -> Template {
     let mut context = Context::new();
     context.insert("PATH", &PATH);
     let error = format!("500: Internal Server Error :<");
