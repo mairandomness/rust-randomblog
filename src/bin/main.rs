@@ -98,7 +98,6 @@ fn get_post(connection: DbConn, post_uri: String) -> Template {
         let mut nexts = String::new();
         if next.len() > 0 {
             nexts = ((&(next[0])).title).clone();
-            println!("this is the next title {:?}", nexts);
         }
 
         //find previous post
@@ -112,7 +111,6 @@ fn get_post(connection: DbConn, post_uri: String) -> Template {
         let mut previous = String::new();
         if previo.len() > 0 {
             previous = ((&(previo[0])).title).clone();
-            println!("this is the previous title{:?}", previous);
         }
 
         let post = post_view(&(post[0]));
