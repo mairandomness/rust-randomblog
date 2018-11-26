@@ -37,6 +37,7 @@ fn main() {
         .mount("/", routes![admin, login, login_post, logout])
         .mount("/", routes![index])
         .mount("/", routes![get_post])
+        .mount("/", routes![new_post])
         .mount("/", routes![static_files])
         .attach(Template::fairing())
         .launch();
@@ -130,7 +131,7 @@ fn get_post(connection: DbConn, post_uri: String) -> Template {
 }
 
 // Authetication handling
-#[get("/gimme_privilege")]
+#[get("/bossing_around")]
 fn admin(connection: DbConn, info: UserPass<String>) -> Template {
     use schema::posts::dsl::*;
 
@@ -138,11 +139,11 @@ fn admin(connection: DbConn, info: UserPass<String>) -> Template {
     context.insert("PATH", &PATH);
     context.insert("info", &info.user);
     let post_list = posts
-        .filter(published.eq(true))
         .order(date.desc())
         .load::<Post>(&*connection)
         .expect("Error loading posts");
-    context.insert("post_list", &post_list);
+    let post_list: Vec<PostView> = post_list.iter().map(|x| post_view(x)).collect();
+    context.insert("posts", &post_list);
     Template::render("privilege", &context)
 }
 
@@ -159,7 +160,7 @@ fn login_post(form: Form<LoginStatus<DummyAuthenticator>>, cookies: Cookies) -> 
     // or not (in case of a failure). In both cases a "Location" header is send.
     // the first parameter indicates the redirect URL when successful login,
     // the second a URL for a failed login
-    form.into_inner().redirect("/gimme_privilege", "/gimme_privilege", cookies)
+    form.into_inner().redirect("/bossing_around", "/gimme_privilege", cookies)
 }
 
 #[get("/logout")]
@@ -169,7 +170,7 @@ fn logout(mut info: UserPass<String>) -> Redirect {
 }
 
 //CUD (because the read is already up there)
-#[get("/post/new")]
+#[get("/bossing_around/post/new")]
 fn new_post(info: UserPass<String>) -> Template {
    let mut context = Context::new();
    context.insert("PATH", &PATH);

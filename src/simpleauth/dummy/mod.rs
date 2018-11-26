@@ -33,14 +33,6 @@ impl Authenticator for DummyAuthenticator {
             .load::<User>(&connection)
             .expect("Error loading posts");
 
-        println!(
-            "username: {}, password: {}, hashed: {}",
-            username,
-            password,
-            hash(&password, DEFAULT_COST).unwrap()
-        );
-        println!("users: {:?}", users);
-
         if users.len() == 0 {
             Err(DummyAuthenticator {
                 user: User {

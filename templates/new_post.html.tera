@@ -1,11 +1,11 @@
 {% extends "main" %}
 {% block content %}
     <div class="container">
-        <h1>Sign In</h1>
-        <form action="admin" method="POST">
+        <h1>Write a new post :3</h1>
+        <form action="bossing_around/post/new" method="POST">
         <input type="text" name="username" value="Username">
         <input type="password" name="password">
-        <input type="submit" value="Login">
+        <input type="submit" value="Create">
     </form>
     </div>
 {% endblock content %}
