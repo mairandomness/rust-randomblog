@@ -3,9 +3,11 @@
     <div class="container">
         <h1>Write a new post :3</h1>
         <form action="bossing_around/post/new" method="POST">
-        <input type="text" name="username" value="Username">
-        <input type="password" name="password">
-        <input type="submit" value="Create">
+        <input type="text" name="title" value="title">
+        <input type="text" name="">
+        <button type="submit" class="btn btn-success">
+            <i class="fas fa-save"> </i>  Save
+        </button>
     </form>
     </div>
 {% endblock content %}

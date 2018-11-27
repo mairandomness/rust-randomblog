@@ -20,7 +20,7 @@ pub fn post_view(post: &Post) -> PostView {
         title: (post.title).clone(),
         date: post.date.format("%b %-d %Y").to_string(),
         content: (post.content).clone(),
-        content_preview: copy[0..140].to_string(),
+        content_preview: copy[0..250].to_string(),
         published: post.published,
     }
 }

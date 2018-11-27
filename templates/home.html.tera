@@ -3,9 +3,11 @@
 
     <div class="container">
         {% for post in posts %}
-        <h2><a href="{{PATH}}/post/{{ post.title | urlencode }}"> {{ post.title }}</a></h2>
-        <p class="date">{{ post.date }}</p>
-        <p>{{ post.content_preview }}...</p>
+        <div class="post-preview">
+            <h2><a href="{{PATH}}/post/{{ post.title | urlencode }}"> {{ post.title }}</a></h2>
+            <p class="date">{{ post.date }}</p>
+            <p>{{ post.content_preview }}...</p>
+        </div>
         {% endfor %}
     </div>
 {% endblock content %}

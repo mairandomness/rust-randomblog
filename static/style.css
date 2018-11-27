@@ -41,8 +41,8 @@ footer {
 }
 
 .date {
-    font-style: italic;
     color: #7a7a7a;
+    font-size: 99%;
 }
 
 .logo {
@@ -65,4 +65,8 @@ footer {
 
 .right-align {
     text-align: right;
+}
+
+.post-preview {
+    margin-bottom: 60px;
 }

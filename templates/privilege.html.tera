@@ -1,14 +1,23 @@
 {% extends "main" %}
 {% block content %}
     <div class="container">
-        <h1 style="text-align:center"> Hi {{ info }}!</h1>
-        <h2><a href="{{PATH}}/bossing_around/post/new"> Create new post</a></h2>
+        <h2><a href="{{PATH}}/bossing_around/post/new"><i class="fas fa-star"></i> Create new post <i class="fas fa-star"></i></a></h2>
+        <hr>
+        <h1><i class="fas fa-skull"></i> Past posts <i class="fas fa-skull"></i></h1>
         {% for post in posts %}
-        <h3><a href="{{PATH}}/post/{{ post.title | urlencode }}"> {{ post.title }}</a></h3>
-        <p class="date">{{ post.date }}</p>
-        <p>{{ post.content_preview }}...</p>
-        <a href="{{PATH}}/bossing_around/post/{{ post.title | urlencode }}/edit">Edit</a>
-        <a href="{{PATH}}/bossing_around/post/{{ post.title | urlencode }}/delete">Delete</a>
+        <div class="post-preview">
+            <h3><a href="{{PATH}}/post/{{ post.title | urlencode }}"> {{ post.title }}</a></h3>
+            <p class="date">{{ post.date }}</p>
+            <p>{{ post.content_preview }}...</p>
+            <div class="row">
+                <div class="col-xs-2">
+                <a href="{{PATH}}/bossing_around/post/{{ post.title | urlencode }}/delete"><i class="fas fa-trash-alt"></i>  Delete </a>
+                </div>
+                <div class="col-xs-2">
+                <a href="{{PATH}}/bossing_around/post/{{ post.title | urlencode }}/edit"><i class="fas fa-edit"></i>  Edit</a>
+                </div>
+            </div>
+        </div>
         {% endfor %}
 
     </div>
