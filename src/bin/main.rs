@@ -28,7 +28,7 @@ use rocket_contrib::templates::Template;
 use std::path::{Path, PathBuf};
 use tera::Context;
 
-const PATH: &str = "http://localhost:8000";
+const PATH: &str = "";
 
 fn main() {
     rocket::ignite()
@@ -224,13 +224,13 @@ fn edit_post(_info: UserPass<String>, connection: DbConn, post_uri: String) -> T
 #[post("/bossing_around/post/<post_uri>/edit", data = "<form>")]
 fn edit_post_db(
     connection: DbConn,
-    info: UserPass<String>,
+    _info: UserPass<String>,
     form: Form<PostForm>,
     post_uri: String,
 ) -> Redirect {
     use schema::posts::dsl::*;
 
-    let updated_row = diesel::update(
+    let _updated_row = diesel::update(
         posts.filter(title.eq(Uri::percent_decode_lossy(post_uri.as_bytes()).to_string())),
     )
     .set((
@@ -266,7 +266,7 @@ fn delete_post_db(
     post_uri: String,
 ) -> Redirect {
     use schema::posts::dsl::*;
-    let delete = diesel::delete(
+    let _delete = diesel::delete(
         posts.filter(title.eq(Uri::percent_decode_lossy(post_uri.as_bytes()).to_string())),
     )
     .execute(&*connection)
