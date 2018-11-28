@@ -9,21 +9,21 @@ use rocket::Response;
 use std::collections::HashMap;
 use std::convert::TryInto;
 
-/// Login state is used after the user has typed its username and password. It checks with an
-/// authenticator if given credentials are valid and returns InvalidCredentials or Succeed based
-/// on the validality of the username and password.
-///
-/// It does that by implementing the FromForm trait that takes the form submitted by your login
-/// page
-///
-/// It expects a form like this on your page:
-///
-///```
-///<form>
-/// <input type="text" name="username" />
-/// <input type="password" name="password" />
-///</form>
-/// ```
+// Login state is used after the user has typed its username and password. It checks with an
+// authenticator if given credentials are valid and returns InvalidCredentials or Succeed based
+// on the validality of the username and password.
+//
+// It does that by implementing the FromForm trait that takes the form submitted by your login
+// page
+//
+// It expects a form like this on your page:
+//
+//
+//<form>
+// <input type="text" name="username" />
+// <input type="password" name="password" />
+//</form>
+//
 pub enum LoginStatus<A> {
     Succeed(A),
     Failed(A),
