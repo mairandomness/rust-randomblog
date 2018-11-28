@@ -1,5 +1,6 @@
 use models::Post;
 use serde_derive::Serialize;
+use comrak::{markdown_to_html, ComrakOptions};
 
 #[derive(Debug, Serialize)]
 pub struct PostView {
@@ -19,7 +20,7 @@ pub fn post_view(post: &Post) -> PostView {
         user_id: post.user_id,
         title: (post.title).clone(),
         date: post.date.format("%b %-d %Y").to_string(),
-        content: (post.content).clone(),
+        content: markdown_to_html(&(post.content), &ComrakOptions::default()),
         content_preview: copy[0..250].to_string(),
         published: post.published,
     }

@@ -1,0 +1,17 @@
+{% extends "main" %}
+{% block content %}
+    <div class="container">
+        <h1><i class="fas fa-pen-fancy"></i> Edit this post</h1>
+        <form action="/bossing_around/post/{{ post.title | urlencode }}/edit" method="POST">
+            <label for="title">Title:</label>
+            <input type="text" maxlength="100" class="form-control" name="title" value="{{ post.title }}">
+            <label for="content">Content:</label>
+            <textarea class="form-control"  rows="30"
+                name="content">{{ post.content }}</textarea>
+            <h3><input type="checkbox" name="published" value="true" checked="post.published"> Publish this post for me!</h3><br>
+            <button type="submit" class="btn btn-success">
+                <i class="fas fa-save"> </i>  Save
+            </button>
+        </form>
+    </div>
+{% endblock content %}

@@ -9,6 +9,7 @@
             <h3><a href="{{PATH}}/post/{{ post.title | urlencode }}"> {{ post.title }}</a></h3>
             <p class="date">{{ post.date }}</p>
             <p>{{ post.content_preview }}...</p>
+            <p class="date"> Published: {{ post.published }}</p>
             <div class="row">
                 <div class="col-xs-2">
                 <a href="{{PATH}}/bossing_around/post/{{ post.title | urlencode }}/delete"><i class="fas fa-trash-alt"></i>  Delete </a>

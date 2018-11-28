@@ -1,3 +1,4 @@
+#![feature(proc_macro_hygiene, decl_macro)]
 #![feature(try_from)]
 // Import Diesel lib and api
 extern crate chrono;
@@ -7,6 +8,7 @@ extern crate diesel;
 #[macro_use]
 extern crate diesel_codegen;
 extern crate bcrypt;
+extern crate comrak;
 
 // Access to ENV vars
 extern crate dotenv;
@@ -16,8 +18,10 @@ extern crate r2d2;
 extern crate r2d2_diesel;
 
 // Rocket lib + api
+#[macro_use]
 extern crate rocket;
 extern crate rocket_contrib;
+extern crate rocket_codegen;
 
 // Re-export schema and models so any files
 // that use lib.rs have access to them

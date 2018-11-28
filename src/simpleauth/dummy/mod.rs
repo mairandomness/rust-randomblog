@@ -1,6 +1,6 @@
 use super::authenticator::Authenticator;
 
-use bcrypt::{hash, verify, DEFAULT_COST};
+use bcrypt::{verify};
 use diesel::pg::PgConnection;
 use diesel::prelude::*;
 use dotenv::dotenv;

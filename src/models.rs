@@ -3,10 +3,10 @@
 // This `models` file will also be imported into our `lib`
 // We JUST made the schema file...
 // Lets take advantage of it by bringing it into scope here
-use serde_derive::{Deserialize, Serialize};
 use chrono::prelude::*;
 use diesel::{Insertable, Queryable};
 use schema::{posts, users};
+use serde_derive::{Deserialize, Serialize};
 
 use simpleauth::userpass::FromString;
 
@@ -52,10 +52,17 @@ pub struct Post {
     pub published: bool,
 }
 
-#[derive(Debug, Insertable, Serialize)]
+#[derive(Debug, Insertable, Serialize, Clone)]
 #[table_name = "posts"]
 pub struct NewPost {
     pub user_id: i32,
+    pub title: String,
+    pub content: String,
+    pub published: bool,
+}
+
+#[derive(Debug, Serialize, FromForm)]
+pub struct PostForm {
     pub title: String,
     pub content: String,
     pub published: bool,

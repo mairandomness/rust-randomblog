@@ -12,7 +12,7 @@ CREATE TABLE posts
 (
     id SERIAL PRIMARY KEY,
     user_id INTEGER NOT NULL,
-    title VARCHAR NOT NULL,
+    title VARCHAR UNIQUE NOT NULL,
     date TIMESTAMP NOT NULL DEFAULT(NOW()),
     content TEXT NOT NULL,
     published BOOLEAN NOT NULL DEFAULT 'f',
