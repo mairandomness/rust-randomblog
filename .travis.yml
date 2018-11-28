@@ -8,6 +8,6 @@ before_install:
 deploy:
   provider: gae
   keyfile: ~/Rusty-random-blog-7db92dab73e8.json
-  project: Rusty-random-blog
+  project: rusty-random-blog-223921
   skip_cleanup: true
 
