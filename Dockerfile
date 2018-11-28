@@ -14,5 +14,6 @@ ADD ./ $SOURCES
 
 WORKDIR $SOURCES
 RUN cargo build --release
+RUN diesel migration run
 
 CMD ROCKET_ENV=production ./target/release/main
