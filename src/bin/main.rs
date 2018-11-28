@@ -38,7 +38,17 @@ fn main() {
         .mount("/", routes![admin, login, login_post, logout])
         .mount("/", routes![index])
         .mount("/", routes![get_post])
-        .mount("/", routes![new_post, post_to_db, edit_post, update_post])
+        .mount(
+            "/",
+            routes![
+                new_post,
+                new_post_db,
+                edit_post,
+                edit_post_db,
+                delete_post,
+                delete_post_db
+            ],
+        )
         .mount("/", routes![static_files])
         .attach(Template::fairing())
         .launch();
@@ -180,9 +190,9 @@ fn new_post(_info: UserPass<String>) -> Template {
 }
 
 #[post("/bossing_around/post/new", data = "<form>")]
-fn post_to_db(connection: DbConn, info: UserPass<String>, form: Form<PostForm>) -> Redirect {
+fn new_post_db(connection: DbConn, info: UserPass<String>, form: Form<PostForm>) -> Redirect {
     use schema::posts::dsl::*;
-    let user:User = serde_json::from_str(&info.user).unwrap();
+    let user: User = serde_json::from_str(&info.user).unwrap();
     let new_post = NewPost {
         user_id: user.id,
         title: (form.title).clone(),
@@ -212,27 +222,58 @@ fn edit_post(_info: UserPass<String>, connection: DbConn, post_uri: String) -> T
 }
 
 #[post("/bossing_around/post/<post_uri>/edit", data = "<form>")]
-fn update_post (connection: DbConn, info: UserPass<String>, form: Form<PostForm>, post_uri: String) -> Redirect {
+fn edit_post_db(
+    connection: DbConn,
+    info: UserPass<String>,
+    form: Form<PostForm>,
+    post_uri: String,
+) -> Redirect {
     use schema::posts::dsl::*;
+
+    let updated_row = diesel::update(
+        posts.filter(title.eq(Uri::percent_decode_lossy(post_uri.as_bytes()).to_string())),
+    )
+    .set((
+        title.eq(form.title.clone()),
+        content.eq(form.content.clone()),
+        published.eq(form.published),
+    ))
+    .execute(&*connection)
+    .expect("Error inserting posts");
+
+    Redirect::to("/bossing_around")
+}
+
+#[get("/bossing_around/post/<post_uri>/delete")]
+fn delete_post(_info: UserPass<String>, connection: DbConn, post_uri: String) -> Template {
+    use schema::posts::dsl::*;
+    // find current post
     let post = &posts
         .filter(title.eq(Uri::percent_decode_lossy(&post_uri.as_bytes()).to_string()))
         .load::<Post>(&*connection)
         .expect("Error loading post");
 
-
-    let updated_row = diesel::update(posts
-        .filter(title.eq(Uri::percent_decode_lossy(post_uri.as_bytes()).to_string())))
-        .set((title.eq(form.title.clone()),
-         content.eq(form.content.clone()),
-         published.eq(form.published)))
-        .execute(&*connection)
-        .expect("Error inserting posts");
-
-        Redirect::to("/bossing_around")
-
+    let mut context = Context::new();
+    context.insert("PATH", &PATH);
+    context.insert("post", &post[0]);
+    Template::render("delete_post", &context)
 }
 
-// #[get("/post/<post_uri>/delete")]
+#[post("/bossing_around/post/<post_uri>/delete")]
+fn delete_post_db(
+    connection: DbConn,
+    _info: UserPass<String>,
+    post_uri: String,
+) -> Redirect {
+    use schema::posts::dsl::*;
+    let delete = diesel::delete(
+        posts.filter(title.eq(Uri::percent_decode_lossy(post_uri.as_bytes()).to_string())),
+    )
+    .execute(&*connection)
+    .expect("Error inserting posts");
+
+    Redirect::to("/bossing_around")
+}
 
 // ERROR handling
 #[catch(404)]
