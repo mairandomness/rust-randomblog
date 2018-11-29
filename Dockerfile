@@ -5,7 +5,7 @@ ENV RUSTUP_HOME=/usr/local/rustup \
     CARGO_HOME=/usr/local/cargo \
     PATH=/usr/local/cargo/bin:$PATH
 
-RUN apt install libssl-dev
+RUN apt install libssl-dev openssl
 
 RUN set -eux; \
     \
@@ -29,6 +29,4 @@ ADD ./ $SOURCES
 
 WORKDIR $SOURCES
 RUN cargo build --release
-RUN diesel migration run
-
-CMD ROCKET_ENV=production ./target/release/main
+CMD ROCKET_ENV=production diesel migration run && ./target/release/main
