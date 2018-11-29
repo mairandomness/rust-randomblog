@@ -7,8 +7,6 @@ extern crate diesel;
 #[macro_use]
 extern crate fake;
 
-use std::{thread, time};
-
 use bcrypt::{hash, DEFAULT_COST};
 use diesel::prelude::*;
 use lil_lib::models::*;
@@ -99,3 +97,4 @@ fn main() {
         .execute(&*connection)
         .expect("Error inserting posts");
     }
+}
