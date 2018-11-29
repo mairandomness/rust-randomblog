@@ -14,8 +14,6 @@ use lil_lib::*;
 
 fn main() {
     // The schema is important here
-    let ten_millis = time::Duration::from_millis(1000);
-
     // Let's bring all the DSL methods into scope
     use schema::posts::dsl::*;
     use schema::users::dsl::*;
