@@ -99,9 +99,3 @@ fn main() {
         .execute(&*connection)
         .expect("Error inserting posts");
     }
-    // diesel::insert_into(posts)
-    //     .values(&new_post_list)
-    //     .execute(&*connection)
-    //     .expect("Error inserting posts");
-}
-        //   thread::sleep(ten_millis);

@@ -3,7 +3,6 @@ use super::authenticator::Authenticator;
 use bcrypt::{verify};
 use diesel::pg::PgConnection;
 use diesel::prelude::*;
-use dotenv::dotenv;
 use models::User;
 use schema;
 use std::env;
