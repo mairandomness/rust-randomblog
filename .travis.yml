@@ -7,6 +7,13 @@ before_install:
 - tar xvf secrets.tar
 deploy:
   provider: gae
-  keyfile: ~/Rusty-random-blog-7db92dab73e8.json
+  keyfile: "Rusty-random-blog-7db92dab73e8.json"
   project: rusty-random-blog-223921
   skip_cleanup: true
+
+cache: cargo
+
+matrix:
+allow_failures:
+  - rust: nightly
+fast_finish: true
