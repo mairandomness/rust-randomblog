@@ -1,13 +1,25 @@
-FROM centos:7
+FROM buildpack-deps:stretch
 MAINTAINER mairandomness <mairakodama@gmail.com>
+
+ENV RUSTUP_HOME=/usr/local/rustup \
+    CARGO_HOME=/usr/local/cargo \
+    PATH=/usr/local/cargo/bin:$PATH
+
+RUN set -eux; \
+    \
+    url="https://static.rust-lang.org/rustup/dist/x86_64-unknown-linux-gnu/rustup-init"; \
+    wget "$url"; \
+    chmod +x rustup-init; \
+    ./rustup-init -y --no-modify-path --default-toolchain nightly; \
+    rm rustup-init; \
+    chmod -R a+w $RUSTUP_HOME $CARGO_HOME; \
+    rustup --version; \
+    cargo --version; \
+    rustc --version;
 
 EXPOSE 8080
 
 ENV SOURCES=/sources
-
-RUN yum update -y
-RUN yum install -y file gcc openssl-devel
-RUN curl -sSf https://static.rust-lang.org/rustup.sh | sh -s -- --channel=nightly
 
 RUN mkdir -p $SOURCES
 ADD ./ $SOURCES
