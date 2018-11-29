@@ -5,7 +5,7 @@ ENV RUSTUP_HOME=/usr/local/rustup \
     CARGO_HOME=/usr/local/cargo \
     PATH=/usr/local/cargo/bin:$PATH
 
-RUN apt install libssl-dev openssl
+RUN apt-get install libssl-dev
 
 RUN set -eux; \
     \
