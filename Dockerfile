@@ -13,7 +13,8 @@ RUN set -eux; \
     ./rustup-init -y --no-modify-path --default-toolchain nightly; \
     rm rustup-init; \
     chmod -R a+w $RUSTUP_HOME $CARGO_HOME; \
-    rustup --nightly-2018-10-31; \
+    rustup install nightly-2018-10-31;
+    rustup --version; \
     cargo --version; \
     rustc --version;
 
