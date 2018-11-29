@@ -2,10 +2,11 @@ language: rust
 rust:
 - nightly
 before_install:
-- openssl aes-256-cbc -K $Rusty-random-blog-7db92dab73e8.json.env -iv $.env -in secrets.tar.enc -out secrets.tar -d
+- openssl aes-256-cbc -K $encrypted_f54cdbd2932e_key -iv $encrypted_f54cdbd2932e_iv
+  -in secrets.tar.enc -out secrets.tar -d
 - tar xvf secrets.tar
 deploy:
   provider: gae
-  keyfile: "~/Rusty-random-blog-7db92dab73e8.json"
+  keyfile: ~/Rusty-random-blog-7db92dab73e8.json
   project: rusty-random-blog-223921
   skip_cleanup: true
