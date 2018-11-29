@@ -2,9 +2,6 @@ sudo: required
 
 services:
   - docker
-language: rust
-rust:
-- nightly-2018-10-31
 before_install:
 - openssl aes-256-cbc -K $encrypted_f54cdbd2932e_key -iv $encrypted_f54cdbd2932e_iv
   -in secrets.tar.enc -out secrets.tar -d
@@ -15,9 +12,5 @@ deploy:
   project: rusty-random-blog-223921
   skip_cleanup: true
 
-cache: cargo
-
 matrix:
-allow_failures:
-  - rust: nightly
 fast_finish: true
