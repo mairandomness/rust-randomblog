@@ -4,7 +4,7 @@
     <div class="container">
         {% for post in posts %}
         <div class="post-preview">
-            <h2><a href="{{PATH}}/post/{{ post.title | urlencode }}"> {{ post.title }}</a></h2>
+            <h2><a href="{{/post/{{ post.title | urlencode }}"> {{ post.title }}</a></h2>
             <p class="date">{{ post.date }}</p>
             <p>{{ post.content_preview }}...</p>
         </div>

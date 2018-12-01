@@ -28,8 +28,6 @@ use rocket_contrib::templates::Template;
 use std::path::{Path, PathBuf};
 use tera::Context;
 
-const PATH: &str = "";
-
 fn main() {
     rocket::ignite()
         .register(catchers![not_found])
@@ -79,7 +77,6 @@ fn index(connection: DbConn) -> Template {
 
     context.insert("posts", &post_list);
     context.insert("users", &user_list);
-    context.insert("PATH", &PATH);
 
     Template::render("home", &context)
 }
@@ -96,7 +93,6 @@ fn get_post(connection: DbConn, post_uri: String) -> Template {
         .expect("Error loading post");
 
     let mut context = Context::new();
-    context.insert("PATH", &PATH);
 
     if post.len() > 0 {
         // find next post
@@ -147,7 +143,6 @@ fn admin(connection: DbConn, info: UserPass<String>) -> Template {
     use schema::posts::dsl::*;
 
     let mut context = Context::new();
-    context.insert("PATH", &PATH);
     context.insert("info", &info.user);
     let post_list = posts
         .order(date.desc())
@@ -161,7 +156,6 @@ fn admin(connection: DbConn, info: UserPass<String>) -> Template {
 #[get("/gimme_privilege", rank = 2)]
 fn login() -> Template {
     let mut context = Context::new();
-    context.insert("PATH", &PATH);
     Template::render("login", &context)
 }
 
@@ -185,7 +179,6 @@ fn logout(mut info: UserPass<String>) -> Redirect {
 #[get("/bossing_around/post/new")]
 fn new_post(_info: UserPass<String>) -> Template {
     let mut context = Context::new();
-    context.insert("PATH", &PATH);
     Template::render("new_post", &context)
 }
 
@@ -216,7 +209,6 @@ fn edit_post(_info: UserPass<String>, connection: DbConn, post_uri: String) -> T
         .expect("Error loading post");
 
     let mut context = Context::new();
-    context.insert("PATH", &PATH);
     context.insert("post", &post[0]);
     Template::render("edit_post", &context)
 }
@@ -254,7 +246,6 @@ fn delete_post(_info: UserPass<String>, connection: DbConn, post_uri: String) ->
         .expect("Error loading post");
 
     let mut context = Context::new();
-    context.insert("PATH", &PATH);
     context.insert("post", &post[0]);
     Template::render("delete_post", &context)
 }
@@ -279,7 +270,6 @@ fn delete_post_db(
 #[catch(404)]
 fn not_found(req: &Request) -> Template {
     let mut context = Context::new();
-    context.insert("PATH", &PATH);
     let error = format!("Sorry, '{}' is not a valid path", req.uri());
     context.insert("error", &error);
     Template::render("error", &context)
@@ -288,7 +278,6 @@ fn not_found(req: &Request) -> Template {
 #[catch(500)]
 fn internal(_req: &Request) -> Template {
     let mut context = Context::new();
-    context.insert("PATH", &PATH);
     let error = format!("500: Internal Server Error :<");
     context.insert("error", &error);
     Template::render("error", &context)

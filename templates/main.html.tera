@@ -8,7 +8,7 @@
 		<link rel="stylesheet"
 			href="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
 		<link rel='stylesheet' type='text/css'
-			href="{{ PATH }}/file/style.css">
+			href="/file/style.css">
 		<link href="https://fonts.googleapis.com/css?family=Inconsolata" rel="stylesheet">
 		<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
 		<link rel="shortcut icon" type="image/png" href="https://raw.githubusercontent.com/mairandomness/randomblog/gh-pages/images/pixelcat.png"/>
@@ -17,7 +17,7 @@
 		<div class="container-alt">
 			<div class="row top-menu">
 				<div class="col-xs-10">
-					<a class="home" href="{{ PATH }}">
+					<a class="home" href="/">
 					<img src="https://raw.githubusercontent.com/mairandomness/randomblog/gh-pages/images/pixelcat.png" width="80" alt="My pc, my cats and me logo" class="logo">
 					 My pc, my cats and me
 					 </a>
@@ -29,7 +29,7 @@
 				</div>
 
 			</div>
-			<div class="container">
+			<div class="container content">
 				{% block content %}
 				{% endblock content%}
 			</div>

@@ -1,6 +1,6 @@
 {% extends "main" %}
 {% block content %}
-    <div class="container row">
+    <div class="container row padding-bottom">
         <h1>{{ post.title }}</h1>
         <p class="date">{{ post.date }}</p>
         <div>
@@ -12,14 +12,14 @@
             {% if previous == "" %}
                 <p class="broken-link"><i class="fas fa-angle-left" ></i> Previous Post </p>
             {% else %}
-                <a href="{{ PATH }}/post/{{ previous | urlencode }}"><i class="fas fa-angle-left" ></i> Previous Post </a>
+                <a class="working-link" href="/post/{{ previous | urlencode }}"><i class="fas fa-angle-left" ></i> Previous Post </a>
             {% endif %}
         </div>
         <div class="col-xs-6 right-align">
             {% if next == "" %}
                 <p class="broken-link"> Next Post <i class="fas fa-angle-right"></i></p>
             {% else %}
-                <a href="{{ PATH }}/post/{{ next | urlencode }}"> Next Post <i class="fas fa-angle-right"></i></a>
+                <a class="working-link" href="/post/{{ next | urlencode }}"> Next Post <i class="fas fa-angle-right"></i></a>
 
             {% endif %}
         </div>
