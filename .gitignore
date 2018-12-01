@@ -1,4 +1,5 @@
-
+deploy.sh
+rust_install.sh
 # global
 *.svn
 *.env
