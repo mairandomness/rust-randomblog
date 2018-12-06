@@ -3,10 +3,10 @@
 	<head>
 	<title>My pc, my cats and me</title>
 		<meta name="viewport" content="width=device-width, initial-scale=1">
-		<link href='http://fonts.googleapis.com/css?family=Roboto:400,300,700'
+		<link href='https://fonts.googleapis.com/css?family=Roboto:400,300,700'
 			rel='stylesheet' type='text/css'>
 		<link rel="stylesheet"
-			href="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+			href="https://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
 		<link rel='stylesheet' type='text/css'
 			href="/file/style.css">
 		<link href="https://fonts.googleapis.com/css?family=Inconsolata" rel="stylesheet">
@@ -29,7 +29,7 @@
 				</div>
 
 			</div>
-			<div class="container content">
+			<div class="container">
 				{% block content %}
 				{% endblock content%}
 			</div>
