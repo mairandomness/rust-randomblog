@@ -23,6 +23,7 @@ use rocket::http::Cookies;
 use rocket::request::Form;
 use rocket::response::NamedFile;
 use rocket::response::Redirect;
+use rocket::response::content::Xml;
 use rocket::Request;
 use rocket_contrib::templates::Template;
 use std::path::{Path, PathBuf};
@@ -48,6 +49,7 @@ fn main() {
             ],
         )
         .mount("/", routes![static_files])
+        .mount("/", routes![rss_feed])
         .attach(Template::fairing())
         .launch();
 }
@@ -264,6 +266,23 @@ fn delete_post_db(
     .expect("Error inserting posts");
 
     Redirect::to("/bossing_around")
+}
+
+#[get("/feed.xml")]
+fn rss_feed(connection: DbConn) -> Template {
+    use schema::posts::dsl::*;
+
+    let post = &posts
+    .filter(published.eq(true))
+    .limit(10)
+    .load::<Post>(&*connection)
+    .expect("Error loading post");
+
+    let post_list: Vec<PostView> = post.iter().map(|x| post_view(x)).collect();
+    let mut context = Context::new();
+
+    context.insert("items", &post_list);
+    Template::render("feed", &context)
 }
 
 // ERROR handling
