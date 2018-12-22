@@ -23,7 +23,6 @@ use rocket::http::Cookies;
 use rocket::request::Form;
 use rocket::response::NamedFile;
 use rocket::response::Redirect;
-use rocket::response::content::Xml;
 use rocket::Request;
 use rocket_contrib::templates::Template;
 use std::path::{Path, PathBuf};
@@ -36,10 +35,10 @@ fn main() {
         .manage(create_db_pool()) // Register connection pool with Managed State
         .mount("/", routes![admin, login, login_post, logout])
         .mount("/", routes![index])
-        .mount("/", routes![get_post])
         .mount(
             "/",
             routes![
+                get_post,
                 new_post,
                 new_post_db,
                 edit_post,
@@ -48,8 +47,8 @@ fn main() {
                 delete_post_db
             ],
         )
-        .mount("/", routes![static_files])
         .mount("/", routes![rss_feed])
+        .mount("/", routes![static_files])
         .attach(Template::fairing())
         .launch();
 }
@@ -157,7 +156,7 @@ fn admin(connection: DbConn, info: UserPass<String>) -> Template {
 
 #[get("/gimme_privilege", rank = 2)]
 fn login() -> Template {
-    let mut context = Context::new();
+    let context = Context::new();
     Template::render("login", &context)
 }
 
@@ -180,7 +179,7 @@ fn logout(mut info: UserPass<String>) -> Redirect {
 //CUD (because the read is already up there)
 #[get("/bossing_around/post/new")]
 fn new_post(_info: UserPass<String>) -> Template {
-    let mut context = Context::new();
+    let context = Context::new();
     Template::render("new_post", &context)
 }
 

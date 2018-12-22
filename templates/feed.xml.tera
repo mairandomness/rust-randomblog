@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+
+<channel>
+   <title>Mai Blog</title>
+   <description>My pc, my cats and me</description>
+   <link>https://mairandom.space</link>
+      <atom:link href="https://mairandom.space/feed.xml" rel="self" type="application/rss+xml" />
+
+   {% for item in items %}
+   <item>
+     <title>{{ item.title }}</title>
+     <link>https://mairandom.space/post/{{ item.title | urlencode}}</link>
+     <guid>https://mairandom.space/post/{{ item.title | urlencode}}</guid>
+     <pubDate>{{ item.pubdate }}</pubDate>
+   </item>
+   {% endfor %}
+
+</channel>
+
+
+</rss>

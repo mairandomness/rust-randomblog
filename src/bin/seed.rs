@@ -61,7 +61,7 @@ fn main() {
         username: "admin".to_string(),
         first_name: "Mai".to_string(),
         last_name: "Kodama".to_string(),
-        email: "mai_kd@hotmail.com".to_string(),
+        email: "maikd@hotmail.com".to_string(),
         password: hashed_password.to_string(),
     };
 
