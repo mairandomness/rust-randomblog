@@ -12,3 +12,4 @@ Also run these if you ever make a change to the tables in the up.sql file and th
 ```diesel migration run```
 ```diesel migration redo```
 
+If you can read this, I owe you the rest of the documentation for this :<
