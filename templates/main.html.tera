@@ -38,6 +38,6 @@
 	<br>
 	<footer>
 		<hr>
-		<p>This blog was made using Rust, if you are curious, check out it's <a href="https://github.com/mairandomness/rustyRandomBlog">repository</a> :D </p>
+		<p>This blog was made using Rust :D </p>
 	</footer>
 </html>

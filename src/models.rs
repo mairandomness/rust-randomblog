@@ -6,6 +6,7 @@
 use chrono::prelude::*;
 use diesel::{Insertable, Queryable};
 use schema::{posts, users};
+use rocket::request::Form;
 use serde_derive::{Deserialize, Serialize};
 
 use simpleauth::userpass::FromString;

@@ -1,7 +1,10 @@
 # rust-randomblog
 A tiny rust project for building my personal blog
 
-## Usage
+## Things to have installed
+Postgres
+The Rust language
+
 ### 1?. The local database restart
 This project uses postgres and the name of the database is assumed to be *rustyrandomblog*, but you can change it if you'd like :)
 If you want to clean your database and start it again from scratch after populating it once, you can run:

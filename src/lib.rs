@@ -1,11 +1,10 @@
 #![feature(proc_macro_hygiene, decl_macro)]
-#![feature(try_from)]
+
 // Import Diesel lib and api
 extern crate chrono;
 extern crate serde_derive;
 #[macro_use]
 extern crate diesel;
-extern crate diesel_codegen;
 extern crate bcrypt;
 extern crate comrak;
 

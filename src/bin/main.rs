@@ -1,6 +1,5 @@
 #![feature(proc_macro_hygiene, decl_macro)]
-#![feature(plugin, custom_derive)]
-#![feature(custom_attribute)]
+#![feature(plugin)]
 
 extern crate chrono;
 extern crate diesel;
@@ -79,7 +78,7 @@ fn index(connection: DbConn) -> Template {
     context.insert("posts", &post_list);
     context.insert("users", &user_list);
 
-    Template::render("home", &context)
+    Template::render("home", &context.into_json())
 }
 
 #[get("/post/<post_uri>")]
@@ -127,14 +126,15 @@ fn get_post(connection: DbConn, post_uri: String) -> Template {
         context.insert("next", &nexts);
         context.insert("previous", &previous);
 
-        Template::render("post", &context)
+        Template::render("post", &context.into_json())
     } else {
         let error = format!(
             "Sorry, '{}' is not a valid post",
             Uri::percent_decode_lossy(&post_uri.as_bytes()).to_string()
         );
         context.insert("error", &error);
-        Template::render("error", &context)
+
+        Template::render("error", &context.into_json())
     }
 }
 
@@ -151,13 +151,15 @@ fn admin(connection: DbConn, info: UserPass<String>) -> Template {
         .expect("Error loading posts");
     let post_list: Vec<PostView> = post_list.iter().map(|x| post_view(x)).collect();
     context.insert("posts", &post_list);
-    Template::render("privilege", &context)
+
+    Template::render("privilege", &context.into_json())
 }
 
 #[get("/gimme_privilege", rank = 2)]
 fn login() -> Template {
     let context = Context::new();
-    Template::render("login", &context)
+
+    Template::render("login", &context.into_json())
 }
 
 #[post("/gimme_privilege", data = "<form>")]
@@ -180,7 +182,7 @@ fn logout(mut info: UserPass<String>) -> Redirect {
 #[get("/bossing_around/post/new")]
 fn new_post(_info: UserPass<String>) -> Template {
     let context = Context::new();
-    Template::render("new_post", &context)
+    Template::render("new_post", &context.into_json())
 }
 
 #[post("/bossing_around/post/new", data = "<form>")]
@@ -211,7 +213,8 @@ fn edit_post(_info: UserPass<String>, connection: DbConn, post_uri: String) -> T
 
     let mut context = Context::new();
     context.insert("post", &post[0]);
-    Template::render("edit_post", &context)
+
+    Template::render("edit_post", &context.into_json())
 }
 
 #[post("/bossing_around/post/<post_uri>/edit", data = "<form>")]
@@ -248,15 +251,12 @@ fn delete_post(_info: UserPass<String>, connection: DbConn, post_uri: String) ->
 
     let mut context = Context::new();
     context.insert("post", &post[0]);
-    Template::render("delete_post", &context)
+
+    Template::render("delete_post", &context.into_json())
 }
 
 #[post("/bossing_around/post/<post_uri>/delete")]
-fn delete_post_db(
-    connection: DbConn,
-    _info: UserPass<String>,
-    post_uri: String,
-) -> Redirect {
+fn delete_post_db(connection: DbConn, _info: UserPass<String>, post_uri: String) -> Redirect {
     use schema::posts::dsl::*;
     let _delete = diesel::delete(
         posts.filter(title.eq(Uri::percent_decode_lossy(post_uri.as_bytes()).to_string())),
@@ -272,16 +272,17 @@ fn rss_feed(connection: DbConn) -> Template {
     use schema::posts::dsl::*;
 
     let post = &posts
-    .filter(published.eq(true))
-    .limit(10)
-    .load::<Post>(&*connection)
-    .expect("Error loading post");
+        .filter(published.eq(true))
+        .limit(10)
+        .load::<Post>(&*connection)
+        .expect("Error loading post");
 
     let post_list: Vec<PostView> = post.iter().map(|x| post_view(x)).collect();
     let mut context = Context::new();
 
     context.insert("items", &post_list);
-    Template::render("feed", &context)
+
+    Template::render("feed", &context.into_json())
 }
 
 // ERROR handling
@@ -290,7 +291,8 @@ fn not_found(req: &Request) -> Template {
     let mut context = Context::new();
     let error = format!("Sorry, '{}' is not a valid path", req.uri());
     context.insert("error", &error);
-    Template::render("error", &context)
+
+    Template::render("error", &context.into_json())
 }
 
 #[catch(500)]
@@ -298,7 +300,8 @@ fn internal(_req: &Request) -> Template {
     let mut context = Context::new();
     let error = format!("500: Internal Server Error :<");
     context.insert("error", &error);
-    Template::render("error", &context)
+
+    Template::render("error", &context.into_json())
 }
 
 #[get("/file/<file..>")]

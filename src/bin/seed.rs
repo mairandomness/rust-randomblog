@@ -4,8 +4,13 @@ extern crate bcrypt;
 
 extern crate diesel;
 
-#[macro_use]
 extern crate fake;
+
+use fake::Fake;
+use fake::locales::EN;
+use fake::faker::name::raw::*;
+use fake::faker::lorem::en::*;
+use fake::faker::internet::raw::*;
 
 use bcrypt::{hash, DEFAULT_COST};
 use diesel::prelude::*;
@@ -39,10 +44,10 @@ fn main() {
 
     fn generate_user_info(pw: &str) -> NewUser {
         NewUser {
-            username: fake!(Name.name),
-            first_name: fake!(Name.name),
-            last_name: fake!(Name.name),
-            email: fake!(Internet.free_email),
+            username: Name(EN).fake(),
+            first_name: FirstName(EN).fake(),
+            last_name: LastName(EN).fake(),
+            email: FreeEmail(EN).fake(),
             password: pw.to_string(),
         }
     }
@@ -50,8 +55,8 @@ fn main() {
     fn generate_post_info(uid: i32) -> NewPost {
         NewPost {
             user_id: uid,
-            title: fake!(Lorem.sentence(1, 4)),
-            content: fake!(Lorem.paragraph(5, 5)),
+            title: Sentence(2..4).fake(),
+            content: Paragraph(30..250).fake(),
             published: true,
         }
     }
@@ -61,7 +66,7 @@ fn main() {
         username: "admin".to_string(),
         first_name: "Mai".to_string(),
         last_name: "Kodama".to_string(),
-        email: "maikd@hotmail.com".to_string(),
+        email: "maikd@mail.com".to_string(),
         password: hashed_password.to_string(),
     };
 
