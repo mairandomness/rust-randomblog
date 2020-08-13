@@ -35,9 +35,9 @@ pub struct LoginRedirect(Redirect);
 impl<A: Authenticator> LoginStatus<A> {
     /// Returns the user id from an instance of Authenticator
     pub fn get_authenticator(&self) -> &A {
-        match self {
-            &LoginStatus::Succeed(ref authenticator) => authenticator,
-            &LoginStatus::Failed(ref authenticator) => authenticator,
+        match *self {
+            LoginStatus::Succeed(ref authenticator) => authenticator,
+            LoginStatus::Failed(ref authenticator) => authenticator,
         }
     }
 

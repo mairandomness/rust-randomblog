@@ -94,7 +94,7 @@ fn get_post(connection: DbConn, post_uri: String) -> Template {
 
     let mut context = Context::new();
 
-    if post.len() > 0 {
+    if !post.is_empty() {
         // find next post
         let next = &posts
             .filter(published.eq(true))
@@ -104,8 +104,8 @@ fn get_post(connection: DbConn, post_uri: String) -> Template {
             .expect("Error loading post");
 
         let mut nexts = String::new();
-        if next.len() > 0 {
-            nexts = ((&(next[0])).title).clone();
+        if !next.is_empty() {
+            nexts = (next[0].title).clone();
         }
 
         //find previous post
@@ -117,8 +117,8 @@ fn get_post(connection: DbConn, post_uri: String) -> Template {
             .expect("Error loading post");
 
         let mut previous = String::new();
-        if previo.len() > 0 {
-            previous = ((&(previo[0])).title).clone();
+        if !previo.is_empty() {
+            previous = (previo[0].title).clone();
         }
 
         let post = post_view(&(post[0]));
@@ -196,7 +196,7 @@ fn new_post_db(connection: DbConn, info: UserPass<String>, form: Form<PostForm>)
         published: form.published,
     };
     diesel::insert_into(posts)
-        .values(new_post.clone())
+        .values(new_post)
         .execute(&*connection)
         .expect("Error inserting posts");
     Redirect::to("/bossing_around")
@@ -298,7 +298,7 @@ fn not_found(req: &Request) -> Template {
 #[catch(500)]
 fn internal(_req: &Request) -> Template {
     let mut context = Context::new();
-    let error = format!("500: Internal Server Error :<");
+    let error = "500: Internal Server Error :<".to_string();
     context.insert("error", &error);
 
     Template::render("error", &context.into_json())

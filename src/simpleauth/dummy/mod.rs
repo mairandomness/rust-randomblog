@@ -25,14 +25,14 @@ impl Authenticator for DummyAuthenticator {
         //TODO don't panic on failure
         let database_url = env::var("DATABASE_URL").expect("DATABASE_URL must be set");
         let connection = PgConnection::establish(&database_url)
-            .expect(&format!("Error connecting to {}", database_url));
+        .unwrap_or_else(|_| panic!("Error connecting to {}", database_url));
 
         let users = &schema::users::dsl::users
             .filter(schema::users::dsl::username.eq(&username))
             .load::<User>(&connection)
             .expect("Error loading posts");
 
-        if users.len() == 0 {
+        if users.is_empty() {
             Err(DummyAuthenticator {
                 user: User {
                     id: 0,
