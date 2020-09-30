@@ -1,5 +1,6 @@
 deploy.sh
 rust_install.sh
+cloud_sql_proxy
 # global
 *.svn
 *.env
