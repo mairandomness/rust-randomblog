@@ -27,4 +27,4 @@ COPY --from=builder \
   /Rocket.toml /root/
 
 WORKDIR /root
-CMD ROCKET_PORT=8080 /usr/local/bin/main
+CMD ROCKET_PORT=$PORT /usr/local/bin/main
