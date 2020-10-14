@@ -232,6 +232,7 @@ fn edit_post_db(
     .set((
         title.eq(form.title.clone()),
         content.eq(form.content.clone()),
+        date.eq(form.date.clone()),
         published.eq(form.published),
     ))
     .execute(&*connection)

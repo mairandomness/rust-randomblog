@@ -8,6 +8,8 @@
             <label for="content">Content:</label>
             <textarea class="form-control"  rows="30"
                 name="content">{{ post.content }}</textarea>
+            <label for="date">Date published:</label>
+            <input type="text" maxlength="100" class="form-control" name="date" value="{{ post.date }}">
             <h3><input type="checkbox" name="published" value="true" checked="post.published"> Publish this post for me!</h3><br>
             <button type="submit" class="btn btn-success">
                 <i class="fas fa-save"> </i>  Save

@@ -5,8 +5,11 @@
 // Lets take advantage of it by bringing it into scope here
 use chrono::prelude::*;
 use diesel::{Insertable, Queryable};
+use request::FromFormValue;
+use rocket::http::RawStr;
 use schema::{posts, users};
 use serde_derive::{Deserialize, Serialize};
+use std::ops::Deref;
 
 use simpleauth::userpass::FromString;
 
@@ -65,5 +68,29 @@ pub struct NewPost {
 pub struct PostForm {
     pub title: String,
     pub content: String,
+    pub date: NaiveDateForm,
     pub published: bool,
+}
+
+#[derive(Debug, Serialize)]
+pub struct NaiveDateForm(NaiveDateTime);
+
+impl<'v> FromFormValue<'v> for NaiveDateForm {
+    type Error = &'v RawStr;
+
+    fn from_form_value(form_value: &'v RawStr) -> Result<NaiveDateForm, &'v RawStr> {
+        let decoded = form_value.url_decode().map_err(|_| form_value)?;
+        if let Ok(date) = NaiveDateTime::parse_from_str(&decoded, "%Y-%m-%dT%H:%M:%S%.f") {
+            return Ok(NaiveDateForm(date));
+        }
+        Err(form_value)
+    }
+}
+
+impl Deref for NaiveDateForm {
+    type Target = NaiveDateTime;
+    
+    fn deref(&self) -> &Self::Target {
+        &self.0
+    }
 }
