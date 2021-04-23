@@ -39,6 +39,7 @@ fn main() {
             routes![
                 get_post,
                 new_post,
+                get_about_me,
                 new_post_db,
                 edit_post,
                 edit_post_db,
@@ -79,6 +80,32 @@ fn index(connection: DbConn) -> Template {
     context.insert("users", &user_list);
 
     Template::render("home", &context.into_json())
+}
+
+#[get("/about-me")]
+fn get_about_me(connection: DbConn) -> Template {
+    use schema::posts::dsl::*;
+
+    // find about-me
+    let post = &posts
+        .filter(title.eq("About me"))
+        .filter(published.eq(false))
+        .load::<Post>(&*connection)
+        .expect("Error loading post");
+
+    let mut context = Context::new();
+
+    if !post.is_empty() {
+        let post = post_view(&(post[0]));
+        context.insert("post", &post);
+        Template::render("about_me", &context.into_json())
+    
+    } else {
+        let error = format!("Sorry, this page is under construction.");
+        context.insert("error", &error);
+
+        Template::render("error", &context.into_json())
+    }
 }
 
 #[get("/post/<post_uri>")]

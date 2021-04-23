@@ -17,6 +17,8 @@ use diesel::prelude::*;
 use lil_lib::models::*;
 use lil_lib::*;
 
+// run this file to check if everything is working
+
 fn main() {
     // The schema is important here
     // Let's bring all the DSL methods into scope

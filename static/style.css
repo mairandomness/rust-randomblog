@@ -58,6 +58,12 @@ footer {
     font-family: 'Inconsolata', monospace;
 }
 
+.about-me {
+    font-size: 1.5em;
+    font-weight: bold;
+    font-family: 'Inconsolata', monospace;
+}
+
 .date {
     color: #7a7a7a;
     font-size: 99%;

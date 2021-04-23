@@ -23,9 +23,9 @@
 					 </a>
 				</div>
 				<div class="col-xs-2 media-links">
-					<p><a class="fab fa-twitter icon" style="font-size:2.5em" href="https://twitter.com/maiRandomness"></a>
-					<a class="fab fa-github icon" style="font-size:2.5em" href="https://github.com/mairandomness"> </a>
-					<a class="fab fa-gitlab icon" style="font-size:2.5em" href="https://gitlab.gnome.org/mairandomness"></a></p>
+					<p><a class="fab fa-twitter icon" style="font-size:2.5em" href="https://twitter.com/maiRandomness"> </a>
+					<a class="fab fa-github-alt icon" style="font-size:2.5em" href="https://github.com/mairandomness"> </a>
+					<div><a class="about-me" href="/about-me">about me</a></div></p>
 				</div>
 
 			</div>
