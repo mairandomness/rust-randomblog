@@ -65,6 +65,13 @@ pub struct NewPost {
 }
 
 #[derive(Debug, Serialize, FromForm)]
+pub struct NewPostForm {
+    pub title: String,
+    pub content: String,
+    pub published: bool,
+}
+
+#[derive(Debug, Serialize, FromForm)]
 pub struct PostForm {
     pub title: String,
     pub content: String,

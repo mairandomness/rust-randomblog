@@ -213,7 +213,7 @@ fn new_post(_info: UserPass<String>) -> Template {
 }
 
 #[post("/bossing_around/post/new", data = "<form>")]
-fn new_post_db(connection: DbConn, info: UserPass<String>, form: Form<PostForm>) -> Redirect {
+fn new_post_db(connection: DbConn, info: UserPass<String>, form: Form<NewPostForm>) -> Redirect {
     use schema::posts::dsl::*;
     let user: User = serde_json::from_str(&info.user).unwrap();
     let new_post = NewPost {

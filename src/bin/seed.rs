@@ -3,7 +3,6 @@ extern crate lil_lib;
 extern crate bcrypt;
 
 extern crate diesel;
-
 extern crate fake;
 
 use fake::Fake;
