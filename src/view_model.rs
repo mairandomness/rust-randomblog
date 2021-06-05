@@ -23,7 +23,7 @@ pub fn post_view(post: &Post) -> PostView {
         date: post.date.format("%b %-d %Y").to_string(),
         pubdate: post.date.format("%a, %d %b %Y %T GMT").to_string(),
         content: markdown_to_html(&(post.content), &ComrakOptions::default()),
-        content_preview: copy[0..250].to_string(),
+        content_preview: if copy.len() > 250 {copy[0..250].to_string()} else {copy.to_string()},
         published: post.published,
     }
 }
