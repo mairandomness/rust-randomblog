@@ -8,14 +8,14 @@
         </div>
     </div>
     <div class="container row">
-        <div class="col-xs-6">
+        <div class="col-6">
             {% if previous == "" %}
                 <p class="broken-link"><i class="fas fa-angle-left" ></i> Previous Post </p>
             {% else %}
                 <a class="working-link" href="/post/{{ previous | urlencode }}"><i class="fas fa-angle-left" ></i> Previous Post </a>
             {% endif %}
         </div>
-        <div class="col-xs-6 right-align">
+        <div class="col-6 right-align">
             {% if next == "" %}
                 <p class="broken-link"> Next Post <i class="fas fa-angle-right"></i></p>
             {% else %}
